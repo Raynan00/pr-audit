@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pr-audit"
+version = "0.1.0"
+description = "AI-assisted PR triage for OSS maintainers. Ranks open PRs, flags concerns, suggests merge order."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Raynan Wuyep", email = "wuyepraynan@gmail.com" }
+]
+keywords = ["github", "pull-request", "code-review", "oss", "maintainer", "triage", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+dependencies = [
+    "httpx>=0.27",
+    "anthropic>=0.40",
+    "python-dotenv>=1.0",
+    "pydantic>=2.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+airweave = [
+    # Optional retrieval backend. When installed and AIRWEAVE_API_KEY +
+    # AIRWEAVE_COLLECTION are set, pr-audit replaces direct GitHub-API
+    # context fetches with semantic search against an Airweave collection.
+    "airweave-sdk>=0.1",
+]
+
+[project.scripts]
+pr-audit = "pr_audit.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Raynan00/pr-audit"
+Issues = "https://github.com/Raynan00/pr-audit/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pr_audit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]

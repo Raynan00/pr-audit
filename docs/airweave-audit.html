@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark light"><title>PR audit &middot; airweave-ai/airweave</title><style>
+:root {
+  --bg: #0a0a0b;
+  --bg-elev: #131316;
+  --bg-elev-2: #1a1a1f;
+  --border: #26262c;
+  --border-strong: #34343c;
+  --text: #ededee;
+  --text-dim: #a1a1a8;
+  --text-mute: #6b6b75;
+  --accent: #a78bfa;
+  --accent-dim: #6d28d9;
+  --green: #34d399;
+  --green-bg: rgba(52, 211, 153, 0.08);
+  --green-border: rgba(52, 211, 153, 0.25);
+  --blue: #60a5fa;
+  --blue-bg: rgba(96, 165, 250, 0.08);
+  --blue-border: rgba(96, 165, 250, 0.25);
+  --yellow: #fbbf24;
+  --yellow-bg: rgba(251, 191, 36, 0.08);
+  --yellow-border: rgba(251, 191, 36, 0.25);
+  --orange: #fb923c;
+  --orange-bg: rgba(251, 146, 60, 0.08);
+  --orange-border: rgba(251, 146, 60, 0.25);
+  --red: #f87171;
+  --red-bg: rgba(248, 113, 113, 0.08);
+  --red-border: rgba(248, 113, 113, 0.25);
+  --gray: #94949c;
+  --gray-bg: rgba(148, 148, 156, 0.08);
+  --gray-border: rgba(148, 148, 156, 0.25);
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fafafa;
+    --bg-elev: #ffffff;
+    --bg-elev-2: #f4f4f5;
+    --border: #e4e4e7;
+    --border-strong: #d4d4d8;
+    --text: #18181b;
+    --text-dim: #52525b;
+    --text-mute: #71717a;
+    --accent: #7c3aed;
+    --accent-dim: #a78bfa;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.mono {
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, monospace;
+  font-feature-settings: 'liga' 0;
+}
+.container { max-width: 1120px; margin: 0 auto; padding: 56px 24px 96px; }
+.hero { margin-bottom: 48px; }
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+.hero h1 .repo { font-weight: 500; color: var(--text-dim); }
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--text-mute);
+  font-size: 14px;
+  margin-top: 12px;
+}
+.hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-mute); display: inline-block; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 32px 0 0;
+}
+.stat {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.stat:hover { border-color: var(--border-strong); }
+.stat-num {
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, monospace;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-mute);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.stat.green .stat-num { color: var(--green); }
+.stat.blue .stat-num { color: var(--blue); }
+.stat.yellow .stat-num { color: var(--yellow); }
+.stat.orange .stat-num { color: var(--orange); }
+.stat.red .stat-num { color: var(--red); }
+.stat.gray .stat-num { color: var(--gray); }
+
+section { margin-top: 64px; }
+section h2 {
+  font-size: 22px;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--text);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+section h2 .count {
+  font-size: 14px;
+  color: var(--text-mute);
+  font-weight: 500;
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, monospace;
+}
+section .section-sub {
+  font-size: 14px;
+  color: var(--text-mute);
+  margin: 0 0 20px;
+}
+.empty {
+  background: var(--bg-elev);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  color: var(--text-mute);
+  font-size: 14px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 14px;
+}
+thead { background: var(--bg-elev-2); }
+th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text-dim);
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-elev-2); }
+td.pr-num { white-space: nowrap; }
+td.pr-num a {
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, monospace;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+td.pr-num a:hover { text-decoration: underline; }
+td.title { color: var(--text); font-weight: 500; max-width: 360px; }
+td.author { color: var(--text-dim); font-size: 13px; }
+td.score { font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-weight: 600; }
+td.notes { color: var(--text-mute); font-size: 13px; line-height: 1.5; }
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+}
+.tag.passing { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.tag.failing { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.tag.pending { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+.tag.unknown { background: var(--gray-bg); color: var(--gray); border: 1px solid var(--gray-border); }
+.tag.tiny, .tag.small { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.tag.medium { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+.tag.large, .tag.xlarge { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }
+.check { color: var(--green); font-weight: 600; }
+.dash { color: var(--text-mute); }
+
+.cards { display: flex; flex-direction: column; gap: 14px; }
+.card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  transition: border-color 0.15s;
+}
+.card:hover { border-color: var(--border-strong); }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.005em;
+  flex: 1;
+}
+.card-title a {
+  color: var(--accent);
+  text-decoration: none;
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+  font-weight: 500;
+  font-size: 14px;
+  margin-right: 8px;
+}
+.card-title a:hover { text-decoration: underline; }
+.card-title .title-text { color: var(--text); }
+.card-meta {
+  font-size: 13px;
+  color: var(--text-mute);
+  margin: 0 0 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.card-meta .meta-sep { color: var(--border-strong); }
+.card-summary {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 14px 0 6px;
+}
+.concerns { display: flex; flex-direction: column; gap: 6px; }
+.concern {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.55;
+  padding: 8px 12px 8px 14px;
+  border-left: 2px solid var(--red);
+  background: var(--red-bg);
+  border-radius: 0 6px 6px 0;
+}
+.smells { display: flex; flex-wrap: wrap; gap: 6px; }
+.smell-tag {
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+  font-size: 12px;
+  color: var(--orange);
+  background: var(--orange-bg);
+  border: 1px solid var(--orange-border);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: 'Inter', -apple-system, sans-serif;
+  white-space: nowrap;
+}
+.badge.merge { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.badge.needs_changes { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+.badge.needs_discussion { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+.badge.close { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+.contested {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+}
+.contested h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+}
+.contested-pr {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.contested-pr:first-of-type { border-top: 1px solid var(--border); }
+.contested-pr-main {
+  font-size: 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.contested-pr-main a {
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.contested-pr-main a:hover { text-decoration: underline; }
+.contested-pr-meta {
+  color: var(--text-mute);
+  font-size: 12px;
+}
+
+ul.patterns { padding: 0; margin: 0; list-style: none; }
+ul.patterns li {
+  padding: 12px 16px 12px 20px;
+  border-left: 2px solid var(--accent);
+  background: var(--bg-elev);
+  margin-bottom: 8px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.footer {
+  margin-top: 80px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-mute);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+}
+.footer code { font-family: ui-monospace, 'SF Mono', Consolas, monospace; color: var(--text-dim); }
+
+@media (max-width: 640px) {
+  .container { padding: 32px 16px 64px; }
+  .hero h1 { font-size: 30px; }
+  table { font-size: 13px; }
+  th, td { padding: 10px 12px; }
+}
+</style></head><body><div class="container"><div class="hero"><div class="hero-eyebrow">PR Backlog Audit</div><h1>airweave-ai<span class="repo">/airweave</span></h1><div class="hero-meta"><span>2026-05-14</span><span class="dot"></span><span><span class="mono">79</span> open PRs</span><span class="dot"></span><span><span class="mono">51</span> open issues</span></div><div class="stats"><div class="stat green"><div class="stat-num">6</div><div class="stat-label">quick wins</div></div><div class="stat blue"><div class="stat-num">0</div><div class="stat-label">high impact</div></div><div class="stat yellow"><div class="stat-num">2</div><div class="stat-label">contested</div></div><div class="stat orange"><div class="stat-num">22</div><div class="stat-label">ai flagged</div></div><div class="stat gray"><div class="stat-num">47</div><div class="stat-label">stale</div></div><div class="stat red"><div class="stat-num">0</div><div class="stat-label">risky</div></div></div></div><section><h2>Quick wins <span class="count">6</span></h2><p class="section-sub">Small, passing CI, mergeable. Batch these this week.</p><table><thead><tr><th>PR</th><th>Title</th><th>Author</th><th>Size</th><th>CI</th><th>Tests</th><th>Age</th><th>Score</th><th>AI summary</th></tr></thead><tbody><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1519">#1519</a></td><td class="title">chore(deps): bump python from 3.13.12-slim to 3.14.0-slim in /backend…</td><td class="author">dependabot[bot]</td><td><span class="tag tiny">tiny</span></td><td><span class="tag passing">passing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">71d</td><td class="score">7</td><td class="notes">Dependabot-generated patch is mechanically sound, but Python 3.14.0 is too new to merge without explicit compatibility testing and</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1741">#1741</a></td><td class="title">chore(deps): bump node from 24.14.0-alpine to 24.15.0-alpine in /mcp …</td><td class="author">dependabot[bot]</td><td><span class="tag tiny">tiny</span></td><td><span class="tag passing">passing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">42d</td><td class="score">9</td><td class="notes">Straightforward Dependabot Node.js patch bump with consistent pinned digests across Dockerfile stages; safe to merge following nor</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1767">#1767</a></td><td class="title">fix(teams): strip non-printable control characters from message body</td><td class="author">octo-patch</td><td><span class="tag small">small</span></td><td><span class="tag passing">passing</span></td><td><span class="check">&#10003;</span></td><td class="mono">17d</td><td class="score">9</td><td class="notes">High-quality fix that solves the Vespa ingestion failure by sanitizing control characters at entity creation time, with comprehens</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1779">#1779</a></td><td class="title">security: remove hardcoded encryption key and credentials from manual…</td><td class="author">sebastiondev</td><td><span class="tag small">small</span></td><td><span class="tag passing">passing</span></td><td><span class="check">&#10003;</span></td><td class="mono">5d</td><td class="score">9</td><td class="notes">Clean, well-tested security fix that removes hardcoded credentials from a manual dev script and replaces them with mandatory env v</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1784">#1784</a></td><td class="title">fix(embedders): use /.well-known/ready instead of /health for local e…</td><td class="author">awesome-pro</td><td><span class="tag tiny">tiny</span></td><td><span class="tag passing">passing</span></td><td><span class="check">&#10003;</span></td><td class="mono">1d</td><td class="score">9</td><td class="notes">Well-scoped bug fix with correct endpoint replacement across all locations and matching test updates; minor code clarity improveme</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/9000">#9000</a></td><td class="title"></td><td class="author"></td><td><span class="tag medium">medium</span></td><td><span class="tag passing">passing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">80d</td><td class="score"><span class="dash">&mdash;</span></td><td class="notes"></td></tr></tbody></table></section><section><h2>High impact <span class="count">0</span></h2><p class="section-sub">Closes high-demand issues. Worth dedicated review time.</p><div class="empty">No PRs in this bucket.</div></section><section><h2>Contested <span class="count">2</span></h2><p class="section-sub">Multiple PRs are targeting the same issue. Pick one, close the others.</p><div class="contested"><h3>Issue #1735</h3><div class="contested-pr"><div class="contested-pr-main"><a href="https://github.com/airweave-ai/airweave/pull/1758">#1758</a><span style="color: var(--text-mute); font-size: 13px;">by qflen</span><span class="tag medium">medium</span><span class="tag passing">passing</span></div><div class="contested-pr-meta mono">20d</div></div><div class="contested-pr"><div class="contested-pr-main"><a href="https://github.com/airweave-ai/airweave/pull/1783">#1783</a><span style="color: var(--text-mute); font-size: 13px;">by awesome-pro</span><span class="tag small">small</span><span class="tag passing">passing</span></div><div class="contested-pr-meta mono">20d</div></div></div></section><section><h2>AI flagged <span class="count">22</span></h2><p class="section-sub">LLM review surfaced blocking concerns. Review each before merging.</p><div class="cards"><div class="card"><div class="card-header"><h3 class="card-title"><a href="https://github.com/airweave-ai/airweave/pull/1669">#1669</a><span class="title-text">feat: add MiniMax as agentic search LLM provider</span></h3><span class="badge merge">approve</span></div><div class="card-meta"><span>by (see PR)</span><span class="meta-sep">&middot;</span><span class="mono">score 6/10</span><span class="meta-sep">&middot;</span><span><span class="tag medium">medium</span></span><span class="meta-sep">&middot;</span><span><span class="tag passing">passing</span></span><span class="meta-sep">&middot;</span><span class="mono">30d old</span></div><p class="card-summary">Well-architected fallback LLM provider following repo patterns with solid test coverage; minor concerns about tokenizer approximation and local testing guidance do not block merge.</p><div class="section-label">Concerns</div><div class="concerns"><div class="concern">API search rate-limited during review (unable to verify against past issues/discussions, but PR title/description appear self-contained)</div><div class="concern">Tokenizer approximation (o200k_harmony for undocumented MiniMax tokenizer) could cause budget estimation drift; no fallback strategy documented if estimate is wrong</div><div class="concern">Integration test skips silently without API key—no clear guidance in README on testing this provider locally</div><div class="concern">Schema cleaning via _clean_schema_basic inherited from BaseLLM; no override if MiniMax has different JSON schema requirements</div><div class="concern">Hardcoded temperature=0.3 in structured_output; no configurability (though consistent with other providers)</div><div class="concern">Think-tag stripping uses regex with DOTALL flag; edge case if response contains literal `&lt;/think&gt;` outside actual tags unlikely but not impossible</div></div><div class="section-label">Smell flags</div><div class="smells"><span class="smell-tag">hardcoded_secret:1</span><span class="smell-tag">disabled_test:1</span></div></div><div class="card"><div class="card-header"><h3 class="card-title"><a href="https://github.com/airweave-ai/airweave/pull/1627">#1627</a><span class="title-text">feat(embedders): Gemini Embedding 2 multimodal — native PDF, image, audio, video</span></h3><span class="badge needs_changes">needs changes</span></div><div class="card-meta"><span>by (see PR)</span><span class="meta-sep">&middot;</span><span class="mono">score 6/10</span><span class="meta-sep">&middot;</span><span><span class="tag medium">medium</span></span><span class="meta-sep">&middot;</span><span><span class="tag passing">passing</span></span><span class="meta-sep">&middot;</span><span class="mono">30d old</span></div><p class="card-summary">High-quality feature with excellent architecture, documentation, and configurability, but diff truncation obscures ~40% of the implementation (embedder class, error handling, converters, tests)—maintainer must verify full code before merge.</p><div class="section-label">Concerns</div><div class="concerns"><div class="concern">PR description truncated in diff (marked `...[truncated]...`); cannot verify full implementation of GeminiDenseEmbedder class, error handling, or test coverage</div><div class="concern">MediaChunker, video OCR deduplication, transcription backends, and file converters not visible in diff—cannot assess correctness or test quality for those critical paths</div><div class="concern">Offline character-based tokenization heuristic (~4 chars/token for 40K char limit) is conservative but unvalidated; Gemini may reject inputs sooner or accept more</div><div class="concern">Temporary keyframe JPEG cleanup relies on `finally` blocks; abnormal process termination could orphan files in system temp directory</div><div class="concern">Scene detection threshold (0.3) and deduplication threshold (0.8) are hardcoded magic numbers presented as empirical but not parameterized or tested against diverse video types</div><div class="concern">No visible integration tests for end-to-end embedding → Vespa storage → hybrid search workflows</div></div><div class="section-label">Smell flags</div><div class="smells"><span class="smell-tag">disabled_test:3</span><span class="smell-tag">very_long_line:8</span></div></div><div class="card"><div class="card-header"><h3 class="card-title"><a href="https://github.com/airweave-ai/airweave/pull/1600">#1600</a><span class="title-text">feat: Enhance GitHub repository name handling</span></h3><span class="badge needs_changes">needs changes</span></div><div class="card-meta"><span>by (see PR)</span><span class="meta-sep">&middot;</span><span class="mono">score 6/10</span><span class="meta-sep">&middot;</span><span><span class="tag medium">medium</span></span><span class="meta-sep">&middot;</span><span><span class="tag passing">passing</span></span><span class="meta-sep">&middot;</span><span class="mono">30d old</span></div><p class="card-summary">Solid feature with good UX improvements, but needs test coverage for config validators and tighter validation after normalization to match repo&#x27;s quality standards.</p><div class="section-label">Concerns</div><div class="concerns"><div class="concern">No test coverage added despite config validation being critical infrastructure; repo patterns show unit tests exist for similar validators</div><div class="concern">Validator order: `normalize_repo_name` (mode=&#x27;before&#x27;) runs first, then `validate_repo_name` runs second—this works but is implicit coupling between two validators</div><div class="concern">Removed inline comments (&#x27;Split by commas...&#x27;, &#x27;Accept both YYYY/MM/DD...&#x27;) without replacement; reduced documentation for other validators</div><div class="concern">Type ignore comments (`# type: ignore[no-any-return]`) suggest the return type annotation may not match actual behavior—worth reviewing if these are legitimate or indicate a deeper type issue</div><div class="concern">Frontend validation removes trailing slashes but doesn&#x27;t validate format after normalization—could accept invalid input like `https://github.com/invalid`</div><div class="concern">No validation of owner/repo segments after normalization (e.g., no check that neither is empty after splitting)</div></div></div><div class="card"><div class="card-header"><h3 class="card-title"><a href="https://github.com/airweave-ai/airweave/pull/1580">#1580</a><span class="title-text">feat: GitHub connector OAuth</span></h3><span class="badge needs_discussion">discuss</span></div><div class="card-meta"><span>by (see PR)</span><span class="meta-sep">&middot;</span><span class="mono">score 6/10</span><span class="meta-sep">&middot;</span><span><span class="tag medium">medium</span></span><span class="meta-sep">&middot;</span><span><span class="tag passing">passing</span></span><span class="meta-sep">&middot;</span><span class="mono">30d old</span></div><p class="card-summary">Well-structured credential unification and OAuth validation refactor that aligns with domain/adapter patterns, but requires clarification on SourceLifecycleService integration, migration impact, and test coverage before merging.</p><div class="section-label">Concerns</div><div class="concerns"><div class="concern">Critical: `SourceLifecycleService.validate(source_name, token_string)` signature unclear—does it internally instantiate source and config? Diff doesn&#x27;t show the implementation or its integration tests, making it hard to verify the token flows correctly through the lifecycle</div><div class="concern">Missing test coverage for the new `source_lifecycle` injection in factory.py and its integration with OAuth callback flow</div><div class="concern">Frontend auth method selection logic now harder to follow (nested ternaries in loop) vs. previous explicit checks; readability trade-off for ordering support not discussed</div><div class="concern">No migration guide for external sources or plugins that may have directly instantiated `GitHubSource(personal_access_token=...)` or relied on that field name</div><div class="concern">Monke broker&#x27;s `access_token` → `token` normalization (line added) only runs if `token` is missing; unclear if this handles all provider-specific field mappings or could mask credential bugs</div><div class="concern">VSCode launch.json adds `--reload-exclude` flags but doesn&#x27;t explain why `local_storage` reload was problematic (performance? test pollution?)</div></div><div class="section-label">Smell flags</div><div class="smells"><span class="smell-tag">hardcoded_secret:6</span></div></div><div class="card"><div class="card-header"><h3 class="card-title"><a href="https://github.com/airweave-ai/airweave/pull/1544">#1544</a><span class="title-text">feat: browse tree node selection with targeted sync</span></h3><span class="badge needs_changes">needs changes</span></div><div class="card-meta"><span>by (see PR)</span><span class="meta-sep">&middot;</span><span class="mono">score 6/10</span><span class="meta-sep">&middot;</span><span><span class="tag medium">medium</span></span><span class="meta-sep">&middot;</span><span><span class="tag passing">passing</span></span><span class="meta-sep">&middot;</span><span class="mono">30d old</span></div><p class="card-summary">Strong architectural alignment with repo conventions, but diff truncation prevents full verification of domain internals; credential leakage in manual test and missing async Factory pattern need fixing before merge.</p><div class="section-label">Concerns</div><div class="concerns"><div class="concern">Diff truncated—cannot verify complete domain implementation (protocols, service.py, repository.py, types.py all missing from visible diff)</div><div class="concern">No visible database migrations for NodeSelection model—how is schema being created?</div><div class="concern">Manual test script uses hardcoded credentials (AD_PASSWORD, SP passwords) in source control—security risk</div><div class="concern">BrowseTreeServiceProtocol dependency injection in container.py but no visible protocol definition or concrete implementation in diff</div><div class="concern">Frontend SupportsBrowseTree flag added to Store and Source but no visible API endpoint documenting how sources declare this capability</div><div class="concern">No error handling visible for lazy-loaded tree nodes or timeout scenarios</div></div><div class="section-label">Smell flags</div><div class="smells"><span class="smell-tag">debug_print:59</span></div></div></div><p class="section-sub" style="margin-top:12px;">&hellip; and 14 more in pr_data.json</p></section><section><h2>Stale <span class="count">47</span></h2><p class="section-sub">60+ days idle, dirty merge state, or failing CI for weeks. Close or revive.</p><table><thead><tr><th>PR</th><th>Title</th><th>Author</th><th>Size</th><th>CI</th><th>Tests</th><th>Age</th><th>Score</th><th>AI summary</th></tr></thead><tbody><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1441">#1441</a></td><td class="title">[code blue] cursor rules v1</td><td class="author">felixschmetz</td><td><span class="tag medium">medium</span></td><td><span class="tag passing">passing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">83d</td><td class="score">8</td><td class="notes">This is a high-quality, actionable refactoring guide that accurately codifies the Code Blue architecture already visible in the re</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1408">#1408</a></td><td class="title">feat: add Google Document AI OCR adapter</td><td class="author">felixschmetz</td><td><span class="tag medium">medium</span></td><td><span class="tag passing">passing</span></td><td><span class="check">&#10003;</span></td><td class="mono">91d</td><td class="score">8</td><td class="notes">Strong architectural fit with solid fallback tests, but GoogleDocumentAIOcrAdapter lacks unit tests and auth/wiring documentation;</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1406">#1406</a></td><td class="title">fix(search): skip non-filterable source fields in query interpretation</td><td class="author">marc-rutzou</td><td><span class="tag small">small</span></td><td><span class="tag failing">failing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">91d</td><td class="score">8</td><td class="notes">Solid defensive fix that solves the Vespa 500 error by whitelisting filterable fields and updating the LLM prompt; clean implement</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1262">#1262</a></td><td class="title">feat(sync): add collection-level deduplication with per-sync entity r…</td><td class="author">orhanrauf</td><td><span class="tag large">large</span></td><td><span class="tag failing">failing</span></td><td><span class="check">&#10003;</span></td><td class="mono">121d</td><td class="score">7</td><td class="notes">Solid feature implementation with good handler tests and clear intent, but lacks tests for the core resolver logic, has test fixtu</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/1199">#1199</a></td><td class="title">feat(app): New TanStack frontend app with component library</td><td class="author">AnandChowdhary</td><td><span class="tag xlarge">xlarge</span></td><td><span class="tag failing">failing</span></td><td><span class="check">&#10003;</span></td><td class="mono">132d</td><td class="score">5</td><td class="notes">Large, feature-rich frontend v2 PR lacks a viewable diff and raises architectural/security questions; maintainer should request th</td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/9018">#9018</a></td><td class="title"></td><td class="author"></td><td><span class="tag small">small</span></td><td><span class="tag passing">passing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">80d</td><td class="score"><span class="dash">&mdash;</span></td><td class="notes"></td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/9019">#9019</a></td><td class="title"></td><td class="author"></td><td><span class="tag small">small</span></td><td><span class="tag passing">passing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">80d</td><td class="score"><span class="dash">&mdash;</span></td><td class="notes"></td></tr><tr><td class="pr-num"><a href="https://github.com/airweave-ai/airweave/pull/9020">#9020</a></td><td class="title"></td><td class="author"></td><td><span class="tag small">small</span></td><td><span class="tag failing">failing</span></td><td><span class="dash">&mdash;</span></td><td class="mono">80d</td><td class="score"><span class="dash">&mdash;</span></td><td class="notes"></td></tr></tbody></table><p class="section-sub" style="margin-top:12px;">&hellip; and 39 more in pr_data.json</p></section><section><h2>Risky <span class="count">0</span></h2><p class="section-sub">Large diffs without tests or with failing CI. Need deeper review.</p><div class="empty">No PRs in this bucket.</div></section><section><h2>Patterns</h2><p class="section-sub">Recurring signals across the backlog worth a CONTRIBUTING.md note or workflow change.</p><ul class="patterns"><li>8 dependabot PRs in queue. Consider enabling auto-merge for dependency groups.</li><li>30 PRs from first-time contributors. A fast first-touch reply keeps them engaged.</li><li>12 mid/large PRs landed without tests. Worth flagging in CONTRIBUTING.md.</li><li>43 PRs have failing CI and won&#x27;t merge until fixed.</li></ul></section><div class="footer"><span>Generated by <code>pr-audit</code></span><span class="dot"></span><span>Read-only, public data only</span><span class="dot"></span><span>LLM reviews via Claude Haiku 4.5</span><span class="dot"></span><span>Maintainer judgment is the final word</span></div></div></body></html>

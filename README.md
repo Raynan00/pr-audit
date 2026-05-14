@@ -193,5 +193,4 @@ MIT.
 
 ## Author
 
-[Raynan Wuyep](https://linkedin.com/in/raynan-wuyep). Built while applying for
-Founding SWE at Airweave.
+[Raynan Wuyep](https://linkedin.com/in/raynan-wuyep).
